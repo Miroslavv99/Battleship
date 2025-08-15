@@ -49,6 +49,16 @@ export class PlayerOne {
       }
     });
   }
+
+  attack() {
+    const cellscontainer = document.querySelector(".oponent-grid");
+
+    cellscontainer.addEventListener("click", (event) => {
+      let cell = target.event.dataset.coordinate.split(",").map(Number);
+
+      this.gameBoard.recieveAttack(cell);
+    });
+  }
 }
 
 export class PlayerTwo {
@@ -115,5 +125,7 @@ export class GameController {
     this.playerTwo.putShips();
   }
 
-  atackPhase() {}
+  atackPhase() {
+    this.currentPlayer.attack();
+  }
 }
