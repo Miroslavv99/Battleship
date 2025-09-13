@@ -15,6 +15,9 @@ export class UIController {
     if (this.mode === "attack") return;
 
     this.renderer.hidePlayerTwoBoard();
+    this.renderer.renderBattleInfo(
+      `Player ${this.gameController.playerOne.name} Put Your Ships`
+    );
 
     this.shipBase.addEventListener("click", (event) => {
       let shipLength = event.target.dataset.length; // Get ship length from clicked element
@@ -54,7 +57,9 @@ export class UIController {
           }
 
           if (this.gameController.playerOne.gameBoard.allShipsPlaced) {
-            this.renderer.renderBattleInfo("Player Blue Put Your Ships"); // Prompt next player
+            this.renderer.renderBattleInfo(
+              `Player ${this.gameController.playerTwo.name} Put Your Ships`
+            ); // Prompt next player
             this.renderer.showPlayerTwoBoard(); // Show Player Two's board
             this.renderer.hidePlayerOneBoard(); // Hide Player One's board
           }
@@ -80,10 +85,63 @@ export class UIController {
             if (this.selectedShip) this.selectedShip = null;
 
             if (this.gameController.playerTwo.gameBoard.allShipsPlaced) {
-              console.log("ALL SHIPS PLACED");
               this.mode = "attack"; // Switch to attack mode after all ships placed
               return;
             }
+          }
+        }
+      }
+
+      if (
+        this.mode === "attack" &&
+        this.gameController.currentPlayer === this.gameController.playerTwo &&
+        owner === "p1" &&
+        !this.gameController.checkWinner()
+      ) {
+        let attackInfo = this.gameController.currentPlayer.attack(cell); // Perform attack
+        if (attackInfo) {
+          this.renderer.markCell(`p1-${cell}`, "hit"); // Mark hit
+          this.renderer.renderBattleInfo(
+            `Hit! Player ${this.gameController.playerTwo.name} attack again!`
+          );
+        } else {
+          if (this.gameController.checkWinner()) {
+            this.renderer.markCell(`p1-${cell}`, "hit"); // Last hit during victory
+            this.renderer.renderBattleInfo(
+              `Player ${this.gameController.currentPlayer.name} Win!`
+            );
+          } else {
+            this.renderer.markCell(`p1-${cell}`, "miss"); // Mark miss
+            this.renderer.renderBattleInfo(
+              `Miss! Player ${this.gameController.playerOne.name} attack!`
+            );
+          }
+        }
+      }
+
+      if (
+        this.mode === "attack" &&
+        this.gameController.currentPlayer === this.gameController.playerOne &&
+        owner === "p2" &&
+        !this.gameController.checkWinner()
+      ) {
+        let attackInfo = this.gameController.currentPlayer.attack(cell);
+        if (attackInfo) {
+          this.renderer.markCell(`p2-${cell}`, "hit");
+          this.renderer.renderBattleInfo(
+            `Hit! Player ${this.gameController.playerOne.name} attack again!`
+          );
+        } else {
+          if (this.gameController.checkWinner()) {
+            this.renderer.markCell(`p2-${cell}`, "hit");
+            this.renderer.renderBattleInfo(
+              `Player ${this.gameController.currentPlayer.name} Win!`
+            );
+          } else {
+            this.renderer.markCell(`p2-${cell}`, "miss");
+            this.renderer.renderBattleInfo(
+              `Miss! Player ${this.gameController.playerTwo.name} attack!`
+            );
           }
         }
       }
