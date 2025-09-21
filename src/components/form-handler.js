@@ -6,9 +6,24 @@ export class FormHandler {
     this.playerTwoInput = document.querySelector("#player-two");
     this.gameController = gameController;
     this.uiController = uiController;
+    this.playerOneError = document.getElementById("player-one-error");
+    this.playerTwoError = document.getElementById("player-two-error");
   }
 
   playerFormInit() {
+    this.playerForm.addEventListener("input", () => {
+      if (this.playerOneInput.validity.tooShort) {
+        this.playerOneError.textContent = `Player name must contain 2 or more characters`;
+      } else {
+        this.playerOneError.textContent = "";
+      }
+
+      if (this.playerTwoInput.validity.tooShort) {
+        this.playerTwoError.textContent = `Player name must contain 2 or more characters`;
+      } else {
+        this.playerTwoError.textContent = "";
+      }
+    });
     this.playerForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
@@ -17,8 +32,8 @@ export class FormHandler {
 
       this.uiController.shipSelector();
       this.uiController.handleCellClick();
-      console.log("GO");
-      this.menuContainer.classList.add("hidden");
+
+      this.menuContainer.classList.toggle("showing");
 
       this.playerForm.reset();
     });
