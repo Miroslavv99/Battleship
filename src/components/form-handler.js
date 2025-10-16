@@ -24,8 +24,17 @@ export class FormHandler {
         this.playerTwoError.textContent = "";
       }
     });
+
     this.playerForm.addEventListener("submit", (event) => {
       event.preventDefault();
+      if (
+        this.playerOneInput.validity.valueMissing ||
+        this.playerOneInput.validity.tooShort ||
+        this.playerTwoInput.validity.valueMissing ||
+        this.playerTwoInput.validity.tooShort
+      ) {
+        return;
+      }
 
       this.gameController.playerOne.name = this.playerOneInput.value;
       this.gameController.playerTwo.name = this.playerTwoInput.value;
@@ -34,6 +43,7 @@ export class FormHandler {
       this.uiController.handleCellClick();
 
       this.menuContainer.classList.toggle("showing");
+      this.playerForm.classList.toggle("showing");
 
       this.playerForm.reset();
     });
