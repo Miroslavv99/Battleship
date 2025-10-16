@@ -1,5 +1,6 @@
 export class Ship {
-  constructor(shipLength) {
+  constructor(id, shipLength) {
+    this.id = id;
     this.shipLength = shipLength;
     this.hits = 0;
     this.destroyed = false;
