@@ -53,7 +53,7 @@ export class GameBoard {
         console.log(this.ships);
       }
 
-      if (this.ships.length > 0) {
+      if (this.ships.length > 1) {
         console.log(this.ships);
         this.allShipsPlaced = true;
       }
