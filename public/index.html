@@ -3,12 +3,85 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
     <title>Document</title>
   </head>
   <body>
     <div class="main">
-      <div class="grid"></div>
-      <div class="oponent-grid"></div>
+      <div class="sidebar">
+        <h1>BATTLESHIP</h1>
+        <button class="start">START</button>
+      </div>
+      <div class="menu">
+        <button class="bot">Play vs Bot</button>
+        <button class="player">Play vs Player</button>
+        <form class="player-form">
+          <h3>Welcome to the Battleship game</h3>
+          <fieldset>
+            <legend>Please enter player names</legend>
+            <div>
+              <input
+                type="text"
+                id="player-one"
+                placeholder="Player one name"
+                minlength="2"
+                required
+              />
+              <div class="error" id="player-one-error"></div>
+            </div>
+            <div>
+              <input
+                type="text"
+                id="player-two"
+                placeholder="Player two name"
+                minlength="2"
+                required
+              />
+              <div class="error" id="player-two-error"></div>
+            </div>
+          </fieldset>
+          <button type="submit">Start Game</button>
+        </form>
+      </div>
+
+      <div class="game-board">
+        <div class="dashboard"></div>
+        <div class="grid-one"></div>
+        <div class="grid-two"></div>
+        <div class="my-ships">
+          <button class="orientation">Horizontal</button>
+          <div
+            class="ship"
+            id="battleship"
+            data-id="battleship"
+            data-length="4"
+          ></div>
+          <div
+            class="ship"
+            id="cruiser-one"
+            data-id="cruiser-one"
+            data-length="3"
+          ></div>
+          <div
+            class="ship"
+            id="cruiser-two"
+            data-id="cruiser-two"
+            data-length="3"
+          ></div>
+          <div
+            class="ship"
+            id="destroyer"
+            data-id="destroyer"
+            data-length="2"
+          ></div>
+          <div class="ship" id="boat" data-id="boat" data-length="1"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
