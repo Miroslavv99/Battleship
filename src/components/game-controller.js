@@ -6,35 +6,40 @@ const playerTwoBoard = new GameBoard();
 
 export class GameController {
   constructor(renderer) {
-    this.renderer = renderer;
+    this.gameUiRenderer = renderer;
     this.playerOne = new Player(null, this, playerOneBoard, playerTwoBoard);
     this.playerTwo = new Player(null, this, playerTwoBoard, playerOneBoard);
     this.currentPlayer = this.playerOne;
     this.attack = false;
+    this.isBotMode = false;
   }
 
   selectPlayer(hit) {
     if (this.currentPlayer === this.playerOne) {
       if (!hit) {
-        this.renderer.hidePlayerTwoBoard();
+        this.gameUiRenderer.hidePlayerTwoBoard();
         this.currentPlayer = this.playerTwo;
-        this.renderer.showPlayerOneBoard();
+        this.gameUiRenderer.showPlayerOneBoard();
       }
     } else if (this.currentPlayer === this.playerTwo) {
       if (!hit) {
-        this.renderer.hidePlayerOneBoard();
+        this.gameUiRenderer.hidePlayerOneBoard();
         this.currentPlayer = this.playerOne;
-        this.renderer.showPlayerTwoBoard();
+        this.gameUiRenderer.showPlayerTwoBoard();
       }
     }
   }
 
   checkWinner() {
     if (this.playerOne.gameBoard.areAllShipsSunk()) {
-      this.renderer.renderBattleInfo(`Player ${this.playerTwo.name} Win!`);
+      this.gameUiRenderer.renderBattleInfo(
+        `Player ${this.playerTwo.name} Win!`
+      );
       return true;
     } else if (this.playerTwo.gameBoard.areAllShipsSunk()) {
-      this.renderer.renderBattleInfo(`Player ${this.playerOne.name} Win!`);
+      this.gameUiRenderer.renderBattleInfo(
+        `Player ${this.playerOne.name} Win!`
+      );
       return true;
     }
   }

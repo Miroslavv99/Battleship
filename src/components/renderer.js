@@ -1,4 +1,4 @@
-export class Renderer {
+export class GameUiRenderer {
   constructor() {
     this.dashboard = document.querySelector(".dashboard");
     this.orientationButton = document.querySelector(".orientation");
