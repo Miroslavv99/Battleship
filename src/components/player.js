@@ -1,7 +1,7 @@
 export class Player {
-  constructor(name, gameController, gameBoard, opponentBoard) {
+  constructor(name, playerManager, gameBoard, opponentBoard) {
     this.name = name;
-    this.gameController = gameController;
+    this.playerManager = playerManager;
     this.gameBoard = gameBoard;
     this.opponentBoard = opponentBoard;
     this.shots = [];
@@ -14,8 +14,9 @@ export class Player {
     console.log(this.opponentBoard.ships);
 
     this.shots.push(coordinate);
-    if (this.gameController.checkWinner()) return;
-    this.gameController.selectPlayer(attackInfo);
+    if (this.playerManager.checkWinner()) return;
+    this.playerManager.selectPlayer(attackInfo);
+
     return attackInfo;
   }
 }

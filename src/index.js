@@ -1,9 +1,10 @@
 import "./styles/styles.css";
 
 import { GameUiRenderer } from "./components/renderer.js";
-import { GameController } from "./components/game-controller.js";
+import { PlayerManager } from "./components/player-manager.js";
 import { UIController } from "./components/ui-controller.js";
 import { FormHandler } from "./components/form-handler.js";
+import { GameController } from "./components/game-controller.js";
 
 const startButton = document.querySelector(".start");
 const menuContainer = document.querySelector(".menu");
@@ -13,9 +14,10 @@ const playerButton = document.querySelector(".player");
 
 document.addEventListener("DOMContentLoaded", () => {
   const gameUiRenderer = new GameUiRenderer();
-  const gameController = new GameController(gameUiRenderer);
+  const playerManager = new PlayerManager(gameUiRenderer);
+  const gameController = new GameController(playerManager, gameUiRenderer);
   const uiController = new UIController(gameController, gameUiRenderer);
-  const formHandler = new FormHandler(gameController, uiController);
+  const formHandler = new FormHandler(playerManager, uiController);
 
   gameUiRenderer.renderGrid();
   gameUiRenderer.renderOponentGrid();
@@ -33,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   botButton.addEventListener("click", () => {
-    gameController.isBotMode = true;
+    playerManager.isBotMode = true;
     menuContainer.classList.toggle("showing");
-    uiController.shipSelector();
+    uiController.handleShipClick();
     uiController.handleCellClick();
   });
 });

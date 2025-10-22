@@ -1,46 +1,156 @@
-import { GameBoard } from "./game-board.js";
-import { Player } from "./player.js";
-
-const playerOneBoard = new GameBoard();
-const playerTwoBoard = new GameBoard();
-
 export class GameController {
-  constructor(renderer) {
-    this.gameUiRenderer = renderer;
-    this.playerOne = new Player(null, this, playerOneBoard, playerTwoBoard);
-    this.playerTwo = new Player(null, this, playerTwoBoard, playerOneBoard);
-    this.currentPlayer = this.playerOne;
-    this.attack = false;
-    this.isBotMode = false;
+  constructor(playerManager, gameUiRenderer) {
+    this.isHorizontal = true;
+    this.mode = "placement";
+    this.selectedShip = null;
+    this.playerManager = playerManager;
+    this.gameUiRenderer = gameUiRenderer;
+    this.orientationButton = document.querySelector(".orientation");
+    this.playerOneBoard = this.playerManager.playerOne.gameBoard;
+    this.playerTwoBoard = this.playerManager.playerTwo.gameBoard;
+    this.initOrientationButton();
   }
 
-  selectPlayer(hit) {
-    if (this.currentPlayer === this.playerOne) {
-      if (!hit) {
-        this.gameUiRenderer.hidePlayerTwoBoard();
-        this.currentPlayer = this.playerTwo;
-        this.gameUiRenderer.showPlayerOneBoard();
+  get playerOneName() {
+    return this.playerManager.playerOne.name;
+  }
+
+  get playerTwoName() {
+    return this.playerManager.playerTwo.name;
+  }
+
+  get currentPlayer() {
+    return this.playerManager.currentPlayer;
+  }
+
+  initOrientationButton() {
+    this.orientationButton.addEventListener("click", () => {
+      this.isHorizontal = !this.isHorizontal;
+      this.gameUiRenderer.updateOrientationButton(this.isHorizontal);
+      console.log(this.isHorizontal);
+    });
+  }
+
+  shipSelector(ship) {
+    this.selectedShip = ship;
+  }
+
+  handleAttack(cell, owner) {
+    if (
+      this.currentPlayer === this.playerManager.playerTwo &&
+      owner === "p1" &&
+      !this.playerManager.checkWinner()
+    ) {
+      let attackInfo = this.currentPlayer.attack(cell); // Perform attack
+      if (attackInfo) {
+        this.gameUiRenderer.markCell(`p1-${cell}`, "hit"); // Mark hit
+        this.gameUiRenderer.renderBattleInfo(
+          `Hit! Player ${this.playerTwoName} attack again!`
+        );
+      } else {
+        if (this.playerManager.checkWinner()) {
+          this.gameUiRenderer.markCell(`p1-${cell}`, "hit"); // Last hit during victory
+          this.gameUiRenderer.renderBattleInfo(
+            `Player ${this.currentPlayer.name} Win!`
+          );
+        } else {
+          this.gameUiRenderer.markCell(`p1-${cell}`, "miss"); // Mark miss
+          this.gameUiRenderer.renderBattleInfo(
+            `Miss! Player ${this.playerOneName} attack!`
+          );
+        }
       }
-    } else if (this.currentPlayer === this.playerTwo) {
-      if (!hit) {
-        this.gameUiRenderer.hidePlayerOneBoard();
-        this.currentPlayer = this.playerOne;
-        this.gameUiRenderer.showPlayerTwoBoard();
+    }
+
+    if (
+      this.currentPlayer === this.playerManager.playerOne &&
+      owner === "p2" &&
+      !this.playerManager.checkWinner()
+    ) {
+      let attackInfo = this.currentPlayer.attack(cell);
+      if (attackInfo) {
+        this.gameUiRenderer.markCell(`p2-${cell}`, "hit");
+        this.gameUiRenderer.renderBattleInfo(
+          `Hit! Player ${this.playerOneName} attack again!`
+        );
+      } else {
+        if (this.playerManager.checkWinner()) {
+          this.gameUiRenderer.markCell(`p2-${cell}`, "hit");
+          this.gameUiRenderer.renderBattleInfo(
+            `Player ${this.currentPlayer.name} Win!`
+          );
+        } else {
+          this.gameUiRenderer.markCell(`p2-${cell}`, "miss");
+          this.gameUiRenderer.renderBattleInfo(
+            `Miss! Player ${this.playerTwoName} attack!`
+          );
+        }
       }
     }
   }
 
-  checkWinner() {
-    if (this.playerOne.gameBoard.areAllShipsSunk()) {
-      this.gameUiRenderer.renderBattleInfo(
-        `Player ${this.playerTwo.name} Win!`
+  handlePlacement(cell, owner) {
+    // Ship placement for player one
+    if (!this.playerOneBoard.allShipsPlaced) {
+      if (!this.selectedShip) return;
+      if (this.playerOneBoard.placedShips.has(this.selectedShip.id)) return;
+      if (owner !== "p1") return;
+
+      this.playerOneBoard.placeShip(
+        this.isHorizontal,
+        Number(this.selectedShip.length),
+        this.selectedShip.id,
+        cell
       );
-      return true;
-    } else if (this.playerTwo.gameBoard.areAllShipsSunk()) {
-      this.gameUiRenderer.renderBattleInfo(
-        `Player ${this.playerOne.name} Win!`
+
+      this.gameUiRenderer.markShipCells(
+        cell,
+        Number(this.selectedShip.length),
+        this.isHorizontal,
+        "p1"
       );
-      return true;
+
+      if (this.playerOneBoard.allShipsPlaced) {
+        this.gameUiRenderer.renderBattleInfo(
+          `Player ${this.playerTwoName} Put Your Ships`
+        );
+        this.gameUiRenderer.showPlayerTwoBoard();
+        this.gameUiRenderer.hidePlayerOneBoard();
+      }
+
+      if (this.selectedShip) this.selectedShip = null;
+    }
+
+    // Ship placement for player Two
+    if (this.playerOneBoard.allShipsPlaced) {
+      if (!this.selectedShip) return;
+      if (this.playerTwoBoard.placedShips.has(this.selectedShip.id)) return;
+
+      if (owner !== "p2") return;
+      this.playerTwoBoard.placeShip(
+        this.isHorizontal,
+        Number(this.selectedShip.length),
+        this.selectedShip.id,
+        cell
+      );
+
+      this.gameUiRenderer.markShipCells(
+        cell,
+        Number(this.selectedShip.length),
+        this.isHorizontal,
+        "p2"
+      );
+
+      if (this.selectedShip) this.selectedShip = null;
+
+      if (this.playerTwoBoard.allShipsPlaced) {
+        this.gameUiRenderer.clearCells();
+        this.gameUiRenderer.renderBattleInfo(
+          `Player ${this.currentPlayer.name} attack!`
+        );
+        this.mode = "attack";
+        return;
+      }
     }
   }
 }
