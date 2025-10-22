@@ -3,20 +3,34 @@ export class UIController {
     this.mode = "placement";
     this.selectedShip = null;
     this.isHorizontal = true;
+    this.gameController = gameController;
+    this.playerOneBoard = this.gameController.playerOne.gameBoard;
+    this.playerTwoBoard = this.gameController.playerTwo.gameBoard;
     this.orientationButton = document.querySelector(".orientation");
     this.gameBoardContainer = document.querySelector(".game-board");
     this.playerOneCells = document.querySelector(".grid-one");
     this.playerTwoCells = document.querySelector(".grid-two");
     this.shipBase = document.querySelector(".my-ships");
-    this.gameController = gameController;
-    this.renderer = renderer;
+    this.gameUiRenderer = renderer;
     this.initOrientationButton();
+  }
+
+  get playerOneName() {
+    return this.gameController.playerOne.name;
+  }
+
+  get playerTwoName() {
+    return this.gameController.playerTwo.name;
+  }
+
+  get currentPlayer() {
+    return this.gameController.currentPlayer;
   }
 
   initOrientationButton() {
     this.orientationButton.addEventListener("click", () => {
       this.isHorizontal = !this.isHorizontal;
-      this.renderer.updateOrientationButton(this.isHorizontal);
+      this.gameUiRenderer.updateOrientationButton(this.isHorizontal);
       console.log(this.isHorizontal);
     });
   }
@@ -24,9 +38,9 @@ export class UIController {
   shipSelector() {
     if (this.mode === "attack") return;
 
-    this.renderer.hidePlayerTwoBoard();
-    this.renderer.renderBattleInfo(
-      `Player ${this.gameController.playerOne.name} Put Your Ships`
+    this.gameUiRenderer.hidePlayerTwoBoard();
+    this.gameUiRenderer.renderBattleInfo(
+      `Player ${this.playerOneName} Put Your Ships`
     );
 
     this.shipBase.addEventListener("click", (event) => {
@@ -59,52 +73,52 @@ export class UIController {
 
   handleAttack(cell, owner) {
     if (
-      this.gameController.currentPlayer === this.gameController.playerTwo &&
+      this.currentPlayer === this.gameController.playerTwo &&
       owner === "p1" &&
       !this.gameController.checkWinner()
     ) {
-      let attackInfo = this.gameController.currentPlayer.attack(cell); // Perform attack
+      let attackInfo = this.currentPlayer.attack(cell); // Perform attack
       if (attackInfo) {
-        this.renderer.markCell(`p1-${cell}`, "hit"); // Mark hit
-        this.renderer.renderBattleInfo(
-          `Hit! Player ${this.gameController.playerTwo.name} attack again!`
+        this.gameUiRenderer.markCell(`p1-${cell}`, "hit"); // Mark hit
+        this.gameUiRenderer.renderBattleInfo(
+          `Hit! Player ${this.playerTwoName} attack again!`
         );
       } else {
         if (this.gameController.checkWinner()) {
-          this.renderer.markCell(`p1-${cell}`, "hit"); // Last hit during victory
-          this.renderer.renderBattleInfo(
-            `Player ${this.gameController.currentPlayer.name} Win!`
+          this.gameUiRenderer.markCell(`p1-${cell}`, "hit"); // Last hit during victory
+          this.gameUiRenderer.renderBattleInfo(
+            `Player ${this.currentPlayer.name} Win!`
           );
         } else {
-          this.renderer.markCell(`p1-${cell}`, "miss"); // Mark miss
-          this.renderer.renderBattleInfo(
-            `Miss! Player ${this.gameController.playerOne.name} attack!`
+          this.gameUiRenderer.markCell(`p1-${cell}`, "miss"); // Mark miss
+          this.gameUiRenderer.renderBattleInfo(
+            `Miss! Player ${this.playerOneName} attack!`
           );
         }
       }
     }
 
     if (
-      this.gameController.currentPlayer === this.gameController.playerOne &&
+      this.currentPlayer === this.gameController.playerOne &&
       owner === "p2" &&
       !this.gameController.checkWinner()
     ) {
-      let attackInfo = this.gameController.currentPlayer.attack(cell);
+      let attackInfo = this.currentPlayer.attack(cell);
       if (attackInfo) {
-        this.renderer.markCell(`p2-${cell}`, "hit");
-        this.renderer.renderBattleInfo(
-          `Hit! Player ${this.gameController.playerOne.name} attack again!`
+        this.gameUiRenderer.markCell(`p2-${cell}`, "hit");
+        this.gameUiRenderer.renderBattleInfo(
+          `Hit! Player ${this.playerOneName} attack again!`
         );
       } else {
         if (this.gameController.checkWinner()) {
-          this.renderer.markCell(`p2-${cell}`, "hit");
-          this.renderer.renderBattleInfo(
-            `Player ${this.gameController.currentPlayer.name} Win!`
+          this.gameUiRenderer.markCell(`p2-${cell}`, "hit");
+          this.gameUiRenderer.renderBattleInfo(
+            `Player ${this.currentPlayer.name} Win!`
           );
         } else {
-          this.renderer.markCell(`p2-${cell}`, "miss");
-          this.renderer.renderBattleInfo(
-            `Miss! Player ${this.gameController.playerTwo.name} attack!`
+          this.gameUiRenderer.markCell(`p2-${cell}`, "miss");
+          this.gameUiRenderer.renderBattleInfo(
+            `Miss! Player ${this.playerTwoName} attack!`
           );
         }
       }
@@ -113,78 +127,65 @@ export class UIController {
 
   handlePlacement(cell, owner) {
     // Ship placement for player one
-    if (!this.gameController.playerOne.gameBoard.allShipsPlaced) {
+    if (!this.playerOneBoard.allShipsPlaced) {
       if (!this.selectedShip) return;
-      if (
-        this.gameController.playerOne.gameBoard.placedShips.has(
-          this.selectedShip.id
-        )
-      ) {
+      if (this.playerOneBoard.placedShips.has(this.selectedShip.id)) {
         return;
       }
 
       if (owner === "p1") {
-        this.gameController.playerOne.gameBoard.placeShip(
+        this.playerOneBoard.placeShip(
           this.isHorizontal,
           Number(this.selectedShip.length),
           this.selectedShip.id,
           cell
         );
 
-        this.renderer.markShipCells(
+        this.gameUiRenderer.markShipCells(
           cell,
           Number(this.selectedShip.length),
           this.isHorizontal,
           "p1"
         );
-
-        console.log(this.gameController.playerOne.gameBoard.ships);
-        console.log(this.gameController.playerOne.gameBoard.board);
       }
 
-      if (this.gameController.playerOne.gameBoard.allShipsPlaced) {
-        this.renderer.renderBattleInfo(
-          `Player ${this.gameController.playerTwo.name} Put Your Ships`
+      if (this.playerOneBoard.allShipsPlaced) {
+        this.gameUiRenderer.renderBattleInfo(
+          `Player ${this.playerTwoName} Put Your Ships`
         );
-        this.renderer.showPlayerTwoBoard();
-        this.renderer.hidePlayerOneBoard();
+        this.gameUiRenderer.showPlayerTwoBoard();
+        this.gameUiRenderer.hidePlayerOneBoard();
       }
 
       if (this.selectedShip) this.selectedShip = null;
     }
 
     // Ship placement for player Two
-    if (this.gameController.playerOne.gameBoard.allShipsPlaced) {
+    if (this.playerOneBoard.allShipsPlaced) {
       if (!this.selectedShip) return;
-      if (
-        this.gameController.playerTwo.gameBoard.placedShips.has(
-          this.selectedShip.id
-        )
-      )
-        return;
+      if (this.playerTwoBoard.placedShips.has(this.selectedShip.id)) return;
 
       if (owner === "p2") {
-        this.gameController.playerTwo.gameBoard.placeShip(
+        this.playerTwoBoard.placeShip(
           this.isHorizontal,
           Number(this.selectedShip.length),
           this.selectedShip.id,
           cell
         );
 
-        this.renderer.markShipCells(
+        this.gameUiRenderer.markShipCells(
           cell,
           Number(this.selectedShip.length),
           this.isHorizontal,
           "p2"
         );
-        console.log(this.gameController.playerTwo.gameBoard.board);
 
         if (this.selectedShip) this.selectedShip = null;
 
-        if (this.gameController.playerTwo.gameBoard.allShipsPlaced) {
-          this.renderer.clearCells();
-          this.renderer.renderBattleInfo(
-            `Player ${this.gameController.currentPlayer.name} attack!`
+        if (this.playerTwoBoard.allShipsPlaced) {
+          this.gameUiRenderer.clearCells();
+          this.gameUiRenderer.renderBattleInfo(
+            `Player ${this.currentPlayer.name} attack!`
           );
           this.mode = "attack";
           return;
