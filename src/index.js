@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
   gameUiRenderer.renderGrid();
   gameUiRenderer.renderOponentGrid();
   gameUiRenderer.showPlayerOneBoard();
+  gameUiRenderer.showPlayerTwoBoard();
+
   gameUiRenderer.renderBattleInfo("Wellcome to the Battleship game!");
 
   startButton.addEventListener("click", () => {
@@ -39,5 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     menuContainer.classList.toggle("showing");
     uiController.handleShipClick();
     uiController.handleCellClick();
+    gameUiRenderer.showPlayerOneBoard();
+    gameUiRenderer.showPlayerTwoBoard();
+    playerManager.playerOne.name = "MIRO";
+    playerManager.playerTwo.name = "BOT";
   });
 });

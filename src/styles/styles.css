@@ -186,12 +186,14 @@ legend {
 .grid-one {
   position: absolute;
   top: 25%;
+  right: 50%;
   z-index: 1;
 }
 
 .grid-two {
   position: absolute;
   top: 25%;
+  left: 50%;
   z-index: 0;
 }
 
@@ -199,8 +201,8 @@ legend {
 .grid-two {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  height: 550px;
-  width: 550px;
+  height: 300px;
+  width: 300px;
   border: 2px solid black;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   background-color: rgba(55, 55, 55, 0.442);

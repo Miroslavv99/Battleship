@@ -12,6 +12,45 @@ export class PlayerManager {
     this.currentPlayer = this.playerOne;
     this.attack = false;
     this.isBotMode = false;
+    this.cellsArray = this.getCellsArray();
+  }
+
+  getCellsArray() {
+    let cells = [];
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        cells.push(`${i},${j}`);
+      }
+    }
+    return cells;
+  }
+
+  botAttack() {
+    let cells = this.cellsArray;
+
+    let randomIndex = Math.floor(Math.random() * cells.length);
+
+    let cell = cells.splice(randomIndex, 1)[0];
+
+    this.playerTwo.attack(cell);
+    this.gameUiRenderer.markCell(`p1-${cell}`, "miss");
+  }
+
+  botMoveSelector(hit) {
+    if (this.isBotMode) {
+      if (this.currentPlayer === this.playerOne) {
+        if (!hit) {
+          this.currentPlayer = this.playerTwo;
+          this.botAttack();
+        }
+      } else {
+        if (!hit) {
+          this.currentPlayer = this.playerOne;
+        } else {
+          this.botAttack();
+        }
+      }
+    }
   }
 
   selectPlayer(hit) {

@@ -11,11 +11,11 @@ export class Player {
     if (this.shots.includes(coordinate)) return;
 
     let attackInfo = this.opponentBoard.receiveAttack(coordinate);
-    console.log(this.opponentBoard.ships);
 
     this.shots.push(coordinate);
     if (this.playerManager.checkWinner()) return;
-    this.playerManager.selectPlayer(attackInfo);
+
+    this.playerManager.botMoveSelector(attackInfo);
 
     return attackInfo;
   }
