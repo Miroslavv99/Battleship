@@ -5,6 +5,7 @@ import { PlayerManager } from "./components/player-manager.js";
 import { UIController } from "./components/ui-controller.js";
 import { FormHandler } from "./components/form-handler.js";
 import { GameController } from "./components/game-controller.js";
+import { BotController } from "./components/bot-controller.js";
 
 const startButton = document.querySelector(".start");
 const menuContainer = document.querySelector(".menu");
@@ -14,8 +15,13 @@ const playerButton = document.querySelector(".player");
 
 document.addEventListener("DOMContentLoaded", () => {
   const gameUiRenderer = new GameUiRenderer();
-  const playerManager = new PlayerManager(gameUiRenderer);
-  const gameController = new GameController(playerManager, gameUiRenderer);
+  const botController = new BotController();
+  const playerManager = new PlayerManager(botController, gameUiRenderer);
+  const gameController = new GameController(
+    playerManager,
+    botController,
+    gameUiRenderer
+  );
   const uiController = new UIController(gameController, gameUiRenderer);
   const formHandler = new FormHandler(playerManager, uiController);
 

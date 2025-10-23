@@ -15,7 +15,11 @@ export class Player {
     this.shots.push(coordinate);
     if (this.playerManager.checkWinner()) return;
 
-    this.playerManager.botMoveSelector(attackInfo);
+    if (this.playerManager.isBotMode) {
+      this.playerManager.botMoveSelector(attackInfo, coordinate);
+    } else {
+      this.playerManager.selectPlayer(attackInfo);
+    }
 
     return attackInfo;
   }

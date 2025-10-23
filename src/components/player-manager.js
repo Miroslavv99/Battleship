@@ -5,49 +5,44 @@ const playerOneBoard = new GameBoard();
 const playerTwoBoard = new GameBoard();
 
 export class PlayerManager {
-  constructor(renderer) {
-    this.gameUiRenderer = renderer;
+  constructor(botController, gameUiRenderer) {
+    this.botController = botController;
+    this.gameUiRenderer = gameUiRenderer;
     this.playerOne = new Player(null, this, playerOneBoard, playerTwoBoard);
     this.playerTwo = new Player(null, this, playerTwoBoard, playerOneBoard);
     this.currentPlayer = this.playerOne;
     this.attack = false;
     this.isBotMode = false;
-    this.cellsArray = this.getCellsArray();
   }
 
-  getCellsArray() {
-    let cells = [];
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
-        cells.push(`${i},${j}`);
-      }
+  checkWinner() {
+    if (this.playerOne.gameBoard.areAllShipsSunk()) {
+      this.gameUiRenderer.renderBattleInfo(
+        `Player ${this.playerTwo.name} Win!`
+      );
+      return true;
+    } else if (this.playerTwo.gameBoard.areAllShipsSunk()) {
+      this.gameUiRenderer.renderBattleInfo(
+        `Player ${this.playerOne.name} Win!`
+      );
+      return true;
     }
-    return cells;
   }
 
-  botAttack() {
-    let cells = this.cellsArray;
-
-    let randomIndex = Math.floor(Math.random() * cells.length);
-
-    let cell = cells.splice(randomIndex, 1)[0];
-
-    this.playerTwo.attack(cell);
-    this.gameUiRenderer.markCell(`p1-${cell}`, "miss");
-  }
-
-  botMoveSelector(hit) {
+  botMoveSelector(hit, coordinate) {
     if (this.isBotMode) {
       if (this.currentPlayer === this.playerOne) {
         if (!hit) {
           this.currentPlayer = this.playerTwo;
-          this.botAttack();
+          this.playerTwo.attack(this.botController.getBotAttackCell());
         }
       } else {
         if (!hit) {
           this.currentPlayer = this.playerOne;
+          this.gameUiRenderer.markCell(`p1-${coordinate}`, "miss");
         } else {
-          this.botAttack();
+          this.playerTwo.attack(this.botController.getBotAttackCell());
+          this.gameUiRenderer.markCell(`p1-${coordinate}`, "hit");
         }
       }
     }
@@ -66,20 +61,6 @@ export class PlayerManager {
         this.currentPlayer = this.playerOne;
         this.gameUiRenderer.showPlayerTwoBoard();
       }
-    }
-  }
-
-  checkWinner() {
-    if (this.playerOne.gameBoard.areAllShipsSunk()) {
-      this.gameUiRenderer.renderBattleInfo(
-        `Player ${this.playerTwo.name} Win!`
-      );
-      return true;
-    } else if (this.playerTwo.gameBoard.areAllShipsSunk()) {
-      this.gameUiRenderer.renderBattleInfo(
-        `Player ${this.playerOne.name} Win!`
-      );
-      return true;
     }
   }
 }

@@ -1,14 +1,14 @@
 export class GameController {
-  constructor(playerManager, gameUiRenderer) {
+  constructor(playerManager, botController, gameUiRenderer) {
     this.isHorizontal = true;
     this.mode = "placement";
     this.selectedShip = null;
     this.playerManager = playerManager;
+    this.botController = botController;
     this.gameUiRenderer = gameUiRenderer;
     this.orientationButton = document.querySelector(".orientation");
     this.playerOneBoard = this.playerManager.playerOne.gameBoard;
     this.playerTwoBoard = this.playerManager.playerTwo.gameBoard;
-    this.cellsArray = this.getCellsArray();
     this.initOrientationButton();
   }
 
@@ -34,34 +34,6 @@ export class GameController {
 
   shipSelector(ship) {
     this.selectedShip = ship;
-  }
-
-  getCellsArray() {
-    let cells = [];
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
-        cells.push(`${i},${j}`);
-      }
-    }
-    return cells;
-  }
-
-  getBotShips() {
-    return ["0,0", "1,0"];
-  }
-
-  placeBotShips() {
-    let botCells = this.getBotShips();
-    for (let i = 0; i < botCells.length; i++) {
-      this.playerTwoBoard.placeShip(true, 4, "battleship", botCells[i]);
-    }
-    if (this.playerTwoBoard.allShipsPlaced) {
-      this.gameUiRenderer.clearCells();
-      this.gameUiRenderer.renderBattleInfo(
-        `Player ${this.currentPlayer.name} attack!`
-      );
-      this.mode = "attack";
-    }
   }
 
   handlePlacement(cell, owner) {
@@ -104,8 +76,17 @@ export class GameController {
     // Ship placement for player Two
     if (this.playerOneBoard.allShipsPlaced) {
       if (this.playerManager.isBotMode) {
-        this.placeBotShips();
-        console.log(this.playerTwoBoard.board);
+        const botShips = this.botController.getBotShips();
+        botShips.forEach((ship) => {
+          this.playerTwoBoard.placeShip(true, 4, "battleship", ship);
+        });
+        if (this.playerTwoBoard.allShipsPlaced) {
+          this.gameUiRenderer.clearCells();
+          this.gameUiRenderer.renderBattleInfo(
+            `Player ${this.currentPlayer.name} attack!`
+          );
+          this.mode = "attack";
+        }
       } else {
         if (!this.selectedShip) return;
         if (this.playerTwoBoard.placedShips.has(this.selectedShip.id)) return;
