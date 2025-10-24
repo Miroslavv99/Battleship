@@ -1,6 +1,8 @@
 export class Player {
   #shots = [];
-  constructor(name, gameBoard) {
+  constructor(name, playerManager, gameBoard, opponentBoard) {
+    this.playerManager = playerManager;
+    this.opponentBoard = opponentBoard;
     this.name = name;
     this.gameBoard = gameBoard;
   }

@@ -2,14 +2,23 @@ import { GameBoard } from "./game-board.js";
 import { Player } from "./player.js";
 
 export class PlayerManager {
-  #playerOneBoard = new GameBoard();
-  #playerTwoBoard = new GameBoard();
-
   constructor(botController, gameUiRenderer) {
     this.botController = botController;
     this.gameUiRenderer = gameUiRenderer;
-    this.playerOne = new Player(null, this.#playerOneBoard);
-    this.playerTwo = new Player(null, this.#playerTwoBoard);
+    this.playerOneBoard = new GameBoard();
+    this.playerTwoBoard = new GameBoard();
+    this.playerOne = new Player(
+      null,
+      this,
+      this.playerOneBoard,
+      this.playerTwoBoard
+    );
+    this.playerTwo = new Player(
+      null,
+      this,
+      this.playerTwoBoard,
+      this.playerOneBoard
+    );
     this.currentPlayer = this.playerOne;
     this.isBotMode = false;
   }
