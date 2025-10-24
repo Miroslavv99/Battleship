@@ -1,18 +1,39 @@
 import { GameBoard } from "./game-board.js";
 import { Player } from "./player.js";
 
-const playerOneBoard = new GameBoard();
-const playerTwoBoard = new GameBoard();
-
 export class PlayerManager {
+  #playerOneBoard = new GameBoard();
+  #playerTwoBoard = new GameBoard();
+
   constructor(botController, gameUiRenderer) {
     this.botController = botController;
     this.gameUiRenderer = gameUiRenderer;
-    this.playerOne = new Player(null, this, playerOneBoard, playerTwoBoard);
-    this.playerTwo = new Player(null, this, playerTwoBoard, playerOneBoard);
+    this.playerOne = new Player(null, this.#playerOneBoard);
+    this.playerTwo = new Player(null, this.#playerTwoBoard);
     this.currentPlayer = this.playerOne;
-    this.attack = false;
     this.isBotMode = false;
+  }
+
+  attack(coordinate, owner) {
+    if (
+      this.currentPlayer === this.playerTwo &&
+      owner === "p1" &&
+      !this.playerManager.checkWinner()
+    ) {
+      let attackInfo = this.#playerOneBoard.receiveAttack(coordinate);
+      if (this.isBotMode) {
+        this.botMoveSelector(attackInfo, coordinate);
+      } else {
+        this.selectPlayer(attackInfo);
+      }
+    } else {
+      let attackInfo = this.#playerTwoBoard.receiveAttack(coordinate);
+      if (this.isBotMode) {
+        this.botMoveSelector(attackInfo, coordinate);
+      } else {
+        this.selectPlayer(attackInfo);
+      }
+    }
   }
 
   botMoveSelector(hit, coordinate) {

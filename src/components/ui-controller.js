@@ -12,7 +12,7 @@ export class UIController {
       this.gameController.playerOneName,
       "placement"
     );
-    ``;
+
     this.shipBase.addEventListener("click", (event) => {
       if (this.gameController.mode !== "placement") return;
 
