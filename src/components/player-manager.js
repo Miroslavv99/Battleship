@@ -15,6 +15,14 @@ export class PlayerManager {
     this.isBotMode = false;
   }
 
+  checkWinner() {
+    if (this.playerOne.gameBoard.areAllShipsSunk()) {
+      return true;
+    } else if (this.playerTwo.gameBoard.areAllShipsSunk()) {
+      return true;
+    }
+  }
+
   botMoveSelector(hit, coordinate) {
     if (this.isBotMode) {
       if (this.currentPlayer === this.playerOne) {
@@ -25,18 +33,10 @@ export class PlayerManager {
       } else {
         if (!hit) {
           this.currentPlayer = this.playerOne;
-          this.gameUiRenderer.renderBattleInfo(
-            hit,
-            this.currentPlayer,
-            `p1-${coordinate}`
-          );
+          this.gameUiRenderer.markCell(`p1-${coordinate}`, "miss");
         } else {
           this.playerTwo.attack(this.botController.getBotAttackCell());
-          this.gameUiRenderer.renderBattleInfo(
-            hit,
-            this.currentPlayer,
-            `p1-${coordinate}`
-          );
+          this.gameUiRenderer.markCell(`p1-${coordinate}`, "hit");
         }
       }
     }
@@ -55,16 +55,6 @@ export class PlayerManager {
         this.currentPlayer = this.playerOne;
         this.gameUiRenderer.showPlayerTwoBoard();
       }
-    }
-  }
-
-  checkWinner() {
-    if (this.playerOne.gameBoard.areAllShipsSunk()) {
-      this.gameUiRenderer.renderWinnerPlayer(this.playerTwo.name);
-      return true;
-    } else if (this.playerTwo.gameBoard.areAllShipsSunk()) {
-      this.gameUiRenderer.renderWinnerPlayer(this.playerOne.name);
-      return true;
     }
   }
 }
