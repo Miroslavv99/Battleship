@@ -20,6 +20,10 @@ export class GameController {
     return this.playerManager.playerTwo.name;
   }
 
+  get currentPlayerName() {
+    return this.playerManager.currentPlayer.name;
+  }
+
   get currentPlayer() {
     return this.playerManager.currentPlayer;
   }
@@ -58,9 +62,7 @@ export class GameController {
       );
 
       if (this.playerOneBoard.allShipsPlaced) {
-        this.gameUiRenderer.renderBattleInfo(
-          `Player ${this.playerTwoName} Put Your Ships`
-        );
+        this.gameUiRenderer.renderPlacementInfo(this.playerTwoName, this.mode);
         if (this.playerManager.isBotMode) {
           this.gameUiRenderer.showPlayerTwoBoard();
           this.gameUiRenderer.showPlayerOneBoard();
@@ -82,9 +84,6 @@ export class GameController {
         });
         if (this.playerTwoBoard.allShipsPlaced) {
           this.gameUiRenderer.clearCells();
-          this.gameUiRenderer.renderBattleInfo(
-            `Player ${this.currentPlayer.name} attack!`
-          );
           this.mode = "attack";
         }
       } else {
@@ -110,10 +109,11 @@ export class GameController {
 
         if (this.playerTwoBoard.allShipsPlaced) {
           this.gameUiRenderer.clearCells();
-          this.gameUiRenderer.renderBattleInfo(
-            `Player ${this.currentPlayer.name} attack!`
-          );
           this.mode = "attack";
+          this.gameUiRenderer.renderPlacementInfo(
+            this.currentPlayerName,
+            this.mode
+          );
           return;
         }
       }
@@ -126,25 +126,12 @@ export class GameController {
       owner === "p1" &&
       !this.playerManager.checkWinner()
     ) {
-      let attackInfo = this.currentPlayer.attack(cell); // Perform attack
-      if (attackInfo) {
-        this.gameUiRenderer.markCell(`p1-${cell}`, "hit"); // Mark hit
-        this.gameUiRenderer.renderBattleInfo(
-          `Hit! Player ${this.playerTwoName} attack again!`
-        );
-      } else {
-        if (this.playerManager.checkWinner()) {
-          this.gameUiRenderer.markCell(`p1-${cell}`, "hit"); // Last hit during victory
-          this.gameUiRenderer.renderBattleInfo(
-            `Player ${this.currentPlayer.name} Win!`
-          );
-        } else {
-          this.gameUiRenderer.markCell(`p1-${cell}`, "miss"); // Mark miss
-          this.gameUiRenderer.renderBattleInfo(
-            `Miss! Player ${this.playerOneName} attack!`
-          );
-        }
-      }
+      let attackInfo = this.currentPlayer.attack(cell);
+      this.gameUiRenderer.renderBattleInfo(
+        attackInfo,
+        this.currentPlayerName,
+        `p1-${cell}`
+      );
     }
 
     if (
@@ -153,24 +140,11 @@ export class GameController {
       !this.playerManager.checkWinner()
     ) {
       let attackInfo = this.currentPlayer.attack(cell);
-      if (attackInfo) {
-        this.gameUiRenderer.markCell(`p2-${cell}`, "hit");
-        this.gameUiRenderer.renderBattleInfo(
-          `Hit! Player ${this.playerOneName} attack again!`
-        );
-      } else {
-        if (this.playerManager.checkWinner()) {
-          this.gameUiRenderer.markCell(`p2-${cell}`, "hit");
-          this.gameUiRenderer.renderBattleInfo(
-            `Player ${this.currentPlayer.name} Win!`
-          );
-        } else {
-          this.gameUiRenderer.markCell(`p2-${cell}`, "miss");
-          this.gameUiRenderer.renderBattleInfo(
-            `Miss! Player ${this.playerTwoName} attack!`
-          );
-        }
-      }
+      this.gameUiRenderer.renderBattleInfo(
+        attackInfo,
+        this.currentPlayerName,
+        `p2-${cell}`
+      );
     }
   }
 }

@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   gameUiRenderer.showPlayerOneBoard();
   gameUiRenderer.showPlayerTwoBoard();
 
-  gameUiRenderer.renderBattleInfo("Wellcome to the Battleship game!");
+  // gameUiRenderer.renderBattleInfo("Wellcome to the Battleship game!");
 
   startButton.addEventListener("click", () => {
     menuContainer.classList.toggle("showing");

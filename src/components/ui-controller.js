@@ -8,10 +8,11 @@ export class UIController {
 
   handleShipClick() {
     this.gameUiRenderer.hidePlayerTwoBoard();
-    this.gameUiRenderer.renderBattleInfo(
-      `Player ${this.gameController.playerOneName} Put Your Ships`
+    this.gameUiRenderer.renderPlacementInfo(
+      this.gameController.playerOneName,
+      "placement"
     );
-
+    ``;
     this.shipBase.addEventListener("click", (event) => {
       if (this.gameController.mode !== "placement") return;
 

@@ -34,8 +34,26 @@ export class GameUiRenderer {
     }
   }
 
-  renderBattleInfo(info) {
-    this.dashboard.textContent = info;
+  renderWinnerPlayer(name) {
+    this.dashboard.textContent = `Player ${name} Win!`;
+  }
+
+  renderPlacementInfo(playerName, mode) {
+    if (mode === "attack") {
+      this.dashboard.textContent = `Player ${playerName} attack!`;
+    } else {
+      this.dashboard.textContent = `Player ${playerName} Put Your Ships!`;
+    }
+  }
+
+  renderBattleInfo(attackInfo, currentPlayer, cell) {
+    if (attackInfo) {
+      document.getElementById(cell).classList.add("hit");
+      this.dashboard.textContent = `Hit! Player ${currentPlayer} attack again!`;
+    } else {
+      document.getElementById(cell).classList.add("miss");
+      this.dashboard.textContent = `Miss! Player ${currentPlayer} attack!`;
+    }
   }
 
   colorTheCell(cell, info) {

@@ -3,10 +3,6 @@ export class BotController {
     this.cellsArray = this.getCellsArray();
   }
 
-  get currentPlayer() {
-    return this.playerManager.currentPlayer;
-  }
-
   getBotShips() {
     return ["0,0", "1,0"];
   }
