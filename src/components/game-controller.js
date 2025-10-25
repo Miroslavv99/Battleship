@@ -121,30 +121,34 @@ export class GameController {
   }
 
   handleAttack(cell, owner) {
-    if (
-      this.currentPlayer === this.playerManager.playerTwo &&
-      owner === "p1" &&
-      !this.playerManager.checkWinner()
-    ) {
-      let attackInfo = this.currentPlayer.attack(cell);
-      this.gameUiRenderer.renderBattleInfo(
-        attackInfo,
-        this.currentPlayerName,
-        `p1-${cell}`
-      );
-    }
-
-    if (
-      this.currentPlayer === this.playerManager.playerOne &&
-      owner === "p2" &&
-      !this.playerManager.checkWinner()
-    ) {
-      let attackInfo = this.currentPlayer.attack(cell);
-      this.gameUiRenderer.renderBattleInfo(
-        attackInfo,
-        this.currentPlayerName,
-        `p2-${cell}`
-      );
-    }
+    this.playerManager.attack(cell, owner);
   }
+
+  // handleAttack(cell, owner) {
+  //   if (
+  //     this.currentPlayer === this.playerManager.playerTwo &&
+  //     owner === "p1" &&
+  //     !this.playerManager.checkWinner()
+  //   ) {
+  //     let attackInfo = this.currentPlayer.attack(cell);
+  //     this.gameUiRenderer.renderBattleInfo(
+  //       attackInfo,
+  //       this.currentPlayerName,
+  //       `p1-${cell}`
+  //     );
+  //   }
+
+  //   if (
+  //     this.currentPlayer === this.playerManager.playerOne &&
+  //     owner === "p2" &&
+  //     !this.playerManager.checkWinner()
+  //   ) {
+  //     let attackInfo = this.currentPlayer.attack(cell);
+  //     this.gameUiRenderer.renderBattleInfo(
+  //       attackInfo,
+  //       this.currentPlayerName,
+  //       `p2-${cell}`
+  //     );
+  //   }
+  // }
 }
