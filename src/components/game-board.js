@@ -68,13 +68,11 @@ export class GameBoard {
         this.#ships[i].hit();
         this.#board[row][col] = 2;
         hit = true;
-        console.log("HIT!");
         return hit;
       }
     }
     if (!hit) {
       this.#board[row][col] = 3;
-      console.log("MISS");
       return hit;
     }
   }

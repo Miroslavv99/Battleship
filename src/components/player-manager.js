@@ -30,17 +30,17 @@ export class PlayerManager {
       if (this.playerOne.shots.includes(cell)) return;
       let attackInfo = this.playerOne.gameBoard.receiveAttack(cell);
       this.playerOne.shots.push(cell);
+      if (this.isBotMode) {
+        this.botMoveSelector(attackInfo);
+      } else {
+        this.selectPlayer(attackInfo);
+      }
       this.gameUiRenderer.renderBattleInfo(
         attackInfo,
         this.currentPlayer.name,
         `p1-${cell}`,
         this.checkWinner()
       );
-      if (this.isBotMode) {
-        this.botMoveSelector(attackInfo);
-      } else {
-        this.selectPlayer(attackInfo);
-      }
     }
 
     if (
@@ -51,18 +51,17 @@ export class PlayerManager {
       if (this.playerTwo.shots.includes(cell)) return;
       let attackInfo = this.playerTwo.gameBoard.receiveAttack(cell);
       this.playerTwo.shots.push(cell);
+      if (this.isBotMode) {
+        this.botMoveSelector(attackInfo);
+      } else {
+        this.selectPlayer(attackInfo);
+      }
       this.gameUiRenderer.renderBattleInfo(
         attackInfo,
         this.currentPlayer.name,
         `p2-${cell}`,
         this.checkWinner()
       );
-
-      if (this.isBotMode) {
-        this.botMoveSelector(attackInfo);
-      } else {
-        this.selectPlayer(attackInfo);
-      }
     }
   }
 
@@ -98,14 +97,14 @@ export class PlayerManager {
   selectPlayer(hit) {
     if (this.currentPlayer === this.playerOne) {
       if (!hit) {
-        this.gameUiRenderer.togglePlayerTwoBoard();
         this.currentPlayer = this.playerTwo;
+        this.gameUiRenderer.togglePlayerTwoBoard();
         this.gameUiRenderer.togglePlayerOneBoard();
       }
     } else if (this.currentPlayer === this.playerTwo) {
       if (!hit) {
-        this.gameUiRenderer.togglePlayerOneBoard();
         this.currentPlayer = this.playerOne;
+        this.gameUiRenderer.togglePlayerOneBoard();
         this.gameUiRenderer.togglePlayerTwoBoard();
       }
     }

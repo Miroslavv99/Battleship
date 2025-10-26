@@ -47,29 +47,18 @@ export class GameUiRenderer {
       this.dashboard.textContent = `Player ${currentPlayer} Win!`;
       document.getElementById(cell).classList.add("hit");
     } else {
-      if (attackInfo) {
-        document.getElementById(cell).classList.add("hit");
-        this.dashboard.textContent = `Hit! Player ${currentPlayer} attack again!`;
-      } else {
+      if (!attackInfo) {
         document.getElementById(cell).classList.add("miss");
         this.dashboard.textContent = `Miss! Player ${currentPlayer} attack!`;
+      } else {
+        document.getElementById(cell).classList.add("hit");
+        this.dashboard.textContent = `Hit! Player ${currentPlayer} attack again!`;
       }
     }
   }
 
-  hidePlayerOneBoard() {
-    this.playerOneGrid.classList.remove("showing");
-  }
-
-  hidePlayerTwoBoard() {
-    this.playerTwoGrid.classList.remove("showing");
-  }
-
-  showPlayerOneBoard() {
+  showAllBoards() {
     this.playerOneGrid.classList.add("showing");
-  }
-
-  showPlayerTwoBoard() {
     this.playerTwoGrid.classList.add("showing");
   }
 
@@ -80,6 +69,7 @@ export class GameUiRenderer {
   togglePlayerTwoBoard() {
     this.playerTwoGrid.classList.toggle("showing");
   }
+
   updateOrientationButton(isHorizontal) {
     if (isHorizontal) {
       this.orientationButton.textContent = "Horizontal";
