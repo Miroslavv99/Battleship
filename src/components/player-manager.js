@@ -7,18 +7,8 @@ export class PlayerManager {
     this.gameUiRenderer = gameUiRenderer;
     this.playerOneBoard = new GameBoard();
     this.playerTwoBoard = new GameBoard();
-    this.playerOne = new Player(
-      null,
-      this,
-      this.playerOneBoard,
-      this.playerTwoBoard
-    );
-    this.playerTwo = new Player(
-      null,
-      this,
-      this.playerTwoBoard,
-      this.playerOneBoard
-    );
+    this.playerOne = new Player(null, this.playerOneBoard);
+    this.playerTwo = new Player(null, this.playerTwoBoard);
     this.currentPlayer = this.playerOne;
     this.isBotMode = false;
   }
@@ -37,11 +27,14 @@ export class PlayerManager {
       owner === "p1" &&
       !this.checkWinner()
     ) {
-      let attackInfo = this.playerTwo.gameBoard.receiveAttack(cell);
+      if (this.playerOne.shots.includes(cell)) return;
+      let attackInfo = this.playerOne.gameBoard.receiveAttack(cell);
+      this.playerOne.shots.push(cell);
       this.gameUiRenderer.renderBattleInfo(
         attackInfo,
         this.currentPlayer.name,
-        `p1-${cell}`
+        `p1-${cell}`,
+        this.checkWinner()
       );
       if (this.isBotMode) {
         this.botMoveSelector(attackInfo);
@@ -55,11 +48,14 @@ export class PlayerManager {
       owner === "p2" &&
       !this.checkWinner()
     ) {
-      let attackInfo = this.playerOne.gameBoard.receiveAttack(cell);
+      if (this.playerTwo.shots.includes(cell)) return;
+      let attackInfo = this.playerTwo.gameBoard.receiveAttack(cell);
+      this.playerTwo.shots.push(cell);
       this.gameUiRenderer.renderBattleInfo(
         attackInfo,
         this.currentPlayer.name,
-        `p2-${cell}`
+        `p2-${cell}`,
+        this.checkWinner()
       );
 
       if (this.isBotMode) {
@@ -90,6 +86,7 @@ export class PlayerManager {
               this.currentPlayer.name,
               `p1-${botAttackCell}`
             );
+            this.currentPlayer = this.playerOne;
           }
         } else if (this.currentPlayer === this.playerTwo) {
           this.currentPlayer = this.playerOne;
@@ -101,35 +98,16 @@ export class PlayerManager {
   selectPlayer(hit) {
     if (this.currentPlayer === this.playerOne) {
       if (!hit) {
-        this.gameUiRenderer.hidePlayerTwoBoard();
+        this.gameUiRenderer.togglePlayerTwoBoard();
         this.currentPlayer = this.playerTwo;
-        this.gameUiRenderer.showPlayerOneBoard();
+        this.gameUiRenderer.togglePlayerOneBoard();
       }
     } else if (this.currentPlayer === this.playerTwo) {
       if (!hit) {
-        this.gameUiRenderer.hidePlayerOneBoard();
+        this.gameUiRenderer.togglePlayerOneBoard();
         this.currentPlayer = this.playerOne;
-        this.gameUiRenderer.showPlayerTwoBoard();
+        this.gameUiRenderer.togglePlayerTwoBoard();
       }
     }
   }
-
-  // botMoveSelector2(hit, coordinate) {
-  //   if (this.isBotMode) {
-  //     if (this.currentPlayer === this.playerOne) {
-  //       if (!hit) {
-  //         this.currentPlayer = this.playerTwo;
-  //         this.playerTwo.attack(this.botController.getBotAttackCell());
-  //       }
-  //     } else {
-  //       if (!hit) {
-  //         this.currentPlayer = this.playerOne;
-  //         this.gameUiRenderer.markCell(`p1-${coordinate}`, "miss");
-  //       } else {
-  //         this.playerTwo.attack(this.botController.getBotAttackCell());
-  //         this.gameUiRenderer.markCell(`p1-${coordinate}`, "hit");
-  //       }
-  //     }
-  //   }
-  // }
 }

@@ -3,11 +3,20 @@ export class UIController {
     this.gameController = gameController;
     this.gameBoardContainer = document.querySelector(".game-board");
     this.shipBase = document.querySelector(".my-ships");
+    this.orientationButton = document.querySelector(".orientation");
     this.gameUiRenderer = renderer;
+    this.initOrientationButton();
+  }
+
+  initOrientationButton() {
+    this.orientationButton.addEventListener("click", () => {
+      this.gameController.isHorizontal = !this.gameController.isHorizontal;
+      this.gameUiRenderer.updateOrientationButton(this.isHorizontal);
+    });
   }
 
   handleShipClick() {
-    this.gameUiRenderer.hidePlayerTwoBoard();
+    // this.gameUiRenderer.hidePlayerTwoBoard();
     this.gameUiRenderer.renderPlacementInfo(
       this.gameController.playerOneName,
       "placement"

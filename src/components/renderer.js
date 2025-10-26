@@ -34,10 +34,6 @@ export class GameUiRenderer {
     }
   }
 
-  renderWinnerPlayer(name) {
-    this.dashboard.textContent = `Player ${name} Win!`;
-  }
-
   renderPlacementInfo(playerName, mode) {
     if (mode === "attack") {
       this.dashboard.textContent = `Player ${playerName} attack!`;
@@ -46,18 +42,19 @@ export class GameUiRenderer {
     }
   }
 
-  renderBattleInfo(attackInfo, currentPlayer, cell) {
-    if (attackInfo) {
+  renderBattleInfo(attackInfo, currentPlayer, cell, winner) {
+    if (winner) {
+      this.dashboard.textContent = `Player ${currentPlayer} Win!`;
       document.getElementById(cell).classList.add("hit");
-      this.dashboard.textContent = `Hit! Player ${currentPlayer} attack again!`;
     } else {
-      document.getElementById(cell).classList.add("miss");
-      this.dashboard.textContent = `Miss! Player ${currentPlayer} attack!`;
+      if (attackInfo) {
+        document.getElementById(cell).classList.add("hit");
+        this.dashboard.textContent = `Hit! Player ${currentPlayer} attack again!`;
+      } else {
+        document.getElementById(cell).classList.add("miss");
+        this.dashboard.textContent = `Miss! Player ${currentPlayer} attack!`;
+      }
     }
-  }
-
-  colorTheCell(cell, info) {
-    cell.classList.add("color");
   }
 
   hidePlayerOneBoard() {
@@ -76,11 +73,13 @@ export class GameUiRenderer {
     this.playerTwoGrid.classList.add("showing");
   }
 
-  markCell(cell, selector) {
-    let myCell = document.getElementById(cell);
-    myCell.classList.add(selector);
+  togglePlayerOneBoard() {
+    this.playerOneGrid.classList.toggle("showing");
   }
 
+  togglePlayerTwoBoard() {
+    this.playerTwoGrid.classList.toggle("showing");
+  }
   updateOrientationButton(isHorizontal) {
     if (isHorizontal) {
       this.orientationButton.textContent = "Horizontal";

@@ -6,10 +6,8 @@ export class GameController {
     this.playerManager = playerManager;
     this.botController = botController;
     this.gameUiRenderer = gameUiRenderer;
-    this.orientationButton = document.querySelector(".orientation");
     this.playerOneBoard = this.playerManager.playerOne.gameBoard;
     this.playerTwoBoard = this.playerManager.playerTwo.gameBoard;
-    this.initOrientationButton();
   }
 
   get playerOneName() {
@@ -26,14 +24,6 @@ export class GameController {
 
   get currentPlayer() {
     return this.playerManager.currentPlayer;
-  }
-
-  initOrientationButton() {
-    this.orientationButton.addEventListener("click", () => {
-      this.isHorizontal = !this.isHorizontal;
-      this.gameUiRenderer.updateOrientationButton(this.isHorizontal);
-      console.log(this.isHorizontal);
-    });
   }
 
   shipSelector(ship) {
@@ -108,6 +98,8 @@ export class GameController {
         if (this.selectedShip) this.selectedShip = null;
 
         if (this.playerTwoBoard.allShipsPlaced) {
+          console.log(`PLAYER 1: ${this.playerOneBoard.board}`);
+          console.log(`PLAYER 2: ${this.playerTwoBoard.board}`);
           this.gameUiRenderer.clearCells();
           this.mode = "attack";
           this.gameUiRenderer.renderPlacementInfo(
@@ -123,32 +115,4 @@ export class GameController {
   handleAttack(cell, owner) {
     this.playerManager.attack(cell, owner);
   }
-
-  // handleAttack(cell, owner) {
-  //   if (
-  //     this.currentPlayer === this.playerManager.playerTwo &&
-  //     owner === "p1" &&
-  //     !this.playerManager.checkWinner()
-  //   ) {
-  //     let attackInfo = this.currentPlayer.attack(cell);
-  //     this.gameUiRenderer.renderBattleInfo(
-  //       attackInfo,
-  //       this.currentPlayerName,
-  //       `p1-${cell}`
-  //     );
-  //   }
-
-  //   if (
-  //     this.currentPlayer === this.playerManager.playerOne &&
-  //     owner === "p2" &&
-  //     !this.playerManager.checkWinner()
-  //   ) {
-  //     let attackInfo = this.currentPlayer.attack(cell);
-  //     this.gameUiRenderer.renderBattleInfo(
-  //       attackInfo,
-  //       this.currentPlayerName,
-  //       `p2-${cell}`
-  //     );
-  //   }
-  // }
 }
