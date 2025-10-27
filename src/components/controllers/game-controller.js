@@ -1,12 +1,15 @@
 export class GameController {
-  constructor(placementManager, playerManager) {
+  constructor(placementController, playerManager) {
     this.mode = "placement";
-    this.placementManager = placementManager;
+    this.placementController = placementController;
     this.playerManager = playerManager;
   }
 
   handlePlacement(cell, owner) {
-    const placementDone = this.placementManager.placePlayerShips(cell, owner);
+    const placementDone = this.placementController.placePlayerShips(
+      cell,
+      owner
+    );
     if (placementDone) this.mode = "attack";
   }
 

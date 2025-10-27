@@ -1,6 +1,6 @@
-export class UIController {
-  constructor(gameController, placementManager, renderer) {
-    this.placementManager = placementManager;
+export class UIHandler {
+  constructor(gameController, placementController, renderer) {
+    this.placementController = placementController;
     this.gameController = gameController;
     this.gameBoardContainer = document.querySelector(".game-board");
     this.shipBase = document.querySelector(".my-ships");
@@ -11,7 +11,8 @@ export class UIController {
 
   initOrientationButton() {
     this.orientationButton.addEventListener("click", () => {
-      this.placementManager.isHorizontal = !this.placementManager.isHorizontal;
+      this.placementController.isHorizontal =
+        !this.placementController.isHorizontal;
       this.gameUiRenderer.updateOrientationButton(this.isHorizontal);
     });
   }
@@ -19,7 +20,7 @@ export class UIController {
   handleShipClick() {
     this.gameUiRenderer.togglePlayerTwoBoard();
     this.gameUiRenderer.renderPlacementInfo(
-      this.placementManager.playerOneName,
+      this.placementController.playerOneName,
       "placement"
     );
 
@@ -31,7 +32,7 @@ export class UIController {
 
       if (!shipLength) return;
 
-      this.placementManager.shipSelector({ length: shipLength, id: shipId });
+      this.placementController.shipSelector({ length: shipLength, id: shipId });
     });
   }
 

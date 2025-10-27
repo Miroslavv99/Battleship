@@ -1,11 +1,11 @@
 export class FormHandler {
-  constructor(playerManager, uiController) {
+  constructor(playerManager, uiHandler) {
     this.menuContainer = document.querySelector(".menu");
     this.playerForm = document.querySelector(".player-form");
     this.playerOneInput = document.querySelector("#player-one");
     this.playerTwoInput = document.querySelector("#player-two");
     this.playerManager = playerManager;
-    this.uiController = uiController;
+    this.uiHandler = uiHandler;
     this.playerOneError = document.getElementById("player-one-error");
     this.playerTwoError = document.getElementById("player-two-error");
   }
@@ -39,8 +39,8 @@ export class FormHandler {
       this.playerManager.playerOne.name = this.playerOneInput.value;
       this.playerManager.playerTwo.name = this.playerTwoInput.value;
 
-      this.uiController.handleShipClick();
-      this.uiController.handleCellClick();
+      this.uiHandler.handleShipClick();
+      this.uiHandler.handleCellClick();
 
       this.menuContainer.classList.toggle("showing");
       this.playerForm.classList.toggle("showing");

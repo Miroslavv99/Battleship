@@ -1,11 +1,12 @@
 import "./styles/styles.css";
 
-import { GameUiRenderer } from "./components/renderer.js";
-import { PlayerManager } from "./components/player-manager.js";
-import { UIController } from "./components/ui-controller.js";
-import { FormHandler } from "./components/form-handler.js";
-import { GameController } from "./components/game-controller.js";
-import { BotController } from "./components/bot-controller.js";
+import { GameUiRenderer } from "./components/game-ui-renderer.js";
+import { PlayerManager } from "./components/controllers/player-manager.js";
+import { UIHandler } from "./components/handlers/ui-handler.js";
+import { FormHandler } from "./components/handlers/form-handler.js";
+import { GameController } from "./components/controllers/game-controller.js";
+import { BotController } from "./components/controllers/bot-controller.js";
+import { PlacementController } from "./components/controllers/placement-controller.js";
 
 const startButton = document.querySelector(".start");
 const menuContainer = document.querySelector(".menu");
@@ -17,20 +18,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameUiRenderer = new GameUiRenderer();
   const botController = new BotController();
   const playerManager = new PlayerManager(botController, gameUiRenderer);
-  const gameController = new GameController(
+  const placementController = new PlacementController(
     playerManager,
     botController,
     gameUiRenderer
   );
-  const uiController = new UIController(gameController, gameUiRenderer);
-  const formHandler = new FormHandler(playerManager, uiController);
+  const gameController = new GameController(placementController, playerManager);
+  const uiHandler = new UIHandler(
+    gameController,
+    placementController,
+    gameUiRenderer
+  );
+  const formHandler = new FormHandler(playerManager, uiHandler);
 
   gameUiRenderer.renderGrid();
   gameUiRenderer.renderOponentGrid();
-  gameUiRenderer.showPlayerOneBoard();
-  gameUiRenderer.showPlayerTwoBoard();
-
-  // gameUiRenderer.renderBattleInfo("Wellcome to the Battleship game!");
+  gameUiRenderer.togglePlayerOneBoard();
+  gameUiRenderer.togglePlayerTwoBoard();
 
   startButton.addEventListener("click", () => {
     menuContainer.classList.toggle("showing");
@@ -45,10 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
   botButton.addEventListener("click", () => {
     playerManager.isBotMode = true;
     menuContainer.classList.toggle("showing");
-    uiController.handleShipClick();
-    uiController.handleCellClick();
-    gameUiRenderer.showPlayerOneBoard();
-    gameUiRenderer.showPlayerTwoBoard();
+    uiHandler.handleShipClick();
+    uiHandler.handleCellClick();
     playerManager.playerOne.name = "MIRO";
     playerManager.playerTwo.name = "BOT";
   });

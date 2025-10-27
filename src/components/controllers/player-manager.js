@@ -1,5 +1,5 @@
-import { GameBoard } from "./game-board.js";
-import { Player } from "./player.js";
+import { GameBoard } from "../core/game-board.js";
+import { Player } from "../core/player.js";
 
 export class PlayerManager {
   constructor(botController, gameUiRenderer) {

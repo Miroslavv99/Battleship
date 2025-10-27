@@ -1,4 +1,4 @@
-export class PlacementManager {
+export class PlacementController {
   constructor(playerManager, botController, gameUiRenderer) {
     this.botController = botController;
     this.playerManager = playerManager;
