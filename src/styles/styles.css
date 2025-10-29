@@ -5,7 +5,7 @@
 }
 
 .main {
-  background-image: url("/src/assets/images/battleship-background.png");
+  background-image: url("/src/assets/images/1didsyn0nc9d1.png");
   background-size: cover;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -205,7 +205,8 @@ legend {
   width: 300px;
   border: 2px solid black;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-  background-color: rgba(55, 55, 55, 0.442);
+  background: rgba(0, 0, 0, 0.344); /* полупрозрачный фон */
+  backdrop-filter: blur(10px); /* блюр фона */
 
   visibility: hidden;
   opacity: 0;
