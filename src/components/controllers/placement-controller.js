@@ -89,6 +89,10 @@ export class PlacementController {
     if (this.playerOneBoard.allShipsPlaced) {
       if (this.playerManager.isBotMode) {
         this.placeBotShips();
+        this.gameUiRenderer.renderPlacementInfo(
+          this.currentPlayerName,
+          "attack"
+        );
         console.log(this.playerTwoBoard.placedShips);
         if (this.playerTwoBoard.allShipsPlaced) {
           this.gameUiRenderer.clearCells();

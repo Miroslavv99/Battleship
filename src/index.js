@@ -47,11 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   botButton.addEventListener("click", () => {
+    playerManager.playerOne.name = "MIRO";
+    playerManager.playerTwo.name = "BOT";
     playerManager.isBotMode = true;
     menuContainer.classList.toggle("showing");
     uiHandler.handleShipClick();
     uiHandler.handleCellClick();
-    playerManager.playerOne.name = "MIRO";
-    playerManager.playerTwo.name = "BOT";
   });
 });
