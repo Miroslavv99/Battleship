@@ -70,7 +70,7 @@ export class PlayerManager {
       if (!hit) {
         this.currentPlayer = this.playerTwo;
         let botAttackCell = this.botController.getBotAttackCell();
-        let botHit = this.playerTwo.gameBoard.receiveAttack(botAttackCell);
+        let botHit = this.playerOne.gameBoard.receiveAttack(botAttackCell);
         this.gameUiRenderer.renderBattleInfo(
           botHit,
           this.currentPlayer.name,
@@ -79,7 +79,7 @@ export class PlayerManager {
         if (botHit) {
           while (botHit === true) {
             let botAttackCell = this.botController.getBotAttackCell();
-            botHit = this.playerTwo.gameBoard.receiveAttack(botAttackCell);
+            botHit = this.playerOne.gameBoard.receiveAttack(botAttackCell);
             this.gameUiRenderer.renderBattleInfo(
               botHit,
               this.currentPlayer.name,

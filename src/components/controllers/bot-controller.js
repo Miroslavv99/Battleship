@@ -1,14 +1,12 @@
 export class BotController {
   constructor() {
-    this.cellsArray = this.getCellsArray();
-  }
-
-  getBotShips() {
-    return ["0,0", "1,0"];
+    this.attackCells = this.getCellsArray();
+    this.placementCells = this.getCellsArray();
+    this.botShips = [4, 3];
   }
 
   getCellsArray() {
-    let cells = [];
+    const cells = [];
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         cells.push(`${i},${j}`);
@@ -17,12 +15,28 @@ export class BotController {
     return cells;
   }
 
+  getBotShips() {
+    for (let i = 0; i < this.botShips.length; i++) {
+      return this.botShips[i];
+    }
+  }
+
+  getBotPlacementCell() {
+    const cells = this.placementCells;
+
+    const randomIndex = Math.floor(Math.random() * cells.length);
+
+    const coordinate = cells.splice(randomIndex, 1)[0];
+
+    return coordinate;
+  }
+
   getBotAttackCell() {
-    let cells = this.cellsArray;
+    const cells = this.attackCells;
 
-    let randomIndex = Math.floor(Math.random() * cells.length);
+    const randomIndex = Math.floor(Math.random() * cells.length);
 
-    let coordinate = cells.splice(randomIndex, 1)[0];
+    const coordinate = cells.splice(randomIndex, 1)[0];
 
     return coordinate;
   }

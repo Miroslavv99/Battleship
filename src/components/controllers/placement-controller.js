@@ -25,6 +25,32 @@ export class PlacementController {
     this.selectedShip = ship;
   }
 
+  placeBotShips() {
+    while (!this.playerTwoBoard.allShipsPlaced) {
+      let shipLength = this.botController.botShips.shift();
+      let cell = this.botController.getBotPlacementCell();
+      let put = this.playerTwoBoard.placeShip(
+        this.isHorizontal,
+        shipLength,
+        "battleship",
+        cell
+      );
+
+      if (!put) {
+        while (put) {
+          let cell = this.botController.getBotPlacementCell();
+          put = this.playerTwoBoard.placeShip(
+            this.isHorizontal,
+            shipLength,
+            "battleship",
+            cell
+          );
+        }
+      }
+      this.playerTwoBoard.allShipsPlaced;
+    }
+  }
+
   placePlayerShips(cell, owner) {
     // Ship placement for player one
     if (!this.playerOneBoard.allShipsPlaced) {
@@ -62,10 +88,8 @@ export class PlacementController {
     // Ship placement for player Two
     if (this.playerOneBoard.allShipsPlaced) {
       if (this.playerManager.isBotMode) {
-        const botShips = this.botController.getBotShips();
-        botShips.forEach((ship) => {
-          this.playerTwoBoard.placeShip(true, 4, "battleship", ship);
-        });
+        this.placeBotShips();
+        console.log(this.playerTwoBoard.placedShips);
         if (this.playerTwoBoard.allShipsPlaced) {
           this.gameUiRenderer.clearCells();
           return true;
