@@ -73,7 +73,7 @@ export class PlacementController {
       );
 
       if (this.playerOneBoard.allShipsPlaced) {
-        this.gameUiRenderer.renderPlacementInfo(this.playerTwoName, this.mode);
+        this.gameUiRenderer.updatePlacementInfo(this.playerTwoName, this.mode);
         if (this.playerManager.isBotMode) {
           this.gameUiRenderer.showAllBoards();
         } else {
@@ -89,7 +89,7 @@ export class PlacementController {
     if (this.playerOneBoard.allShipsPlaced) {
       if (this.playerManager.isBotMode) {
         this.placeBotShips();
-        this.gameUiRenderer.renderPlacementInfo(
+        this.gameUiRenderer.updatePlacementInfo(
           this.currentPlayerName,
           "attack"
         );
@@ -121,7 +121,7 @@ export class PlacementController {
 
         if (this.playerTwoBoard.allShipsPlaced) {
           this.gameUiRenderer.clearCells();
-          this.gameUiRenderer.renderPlacementInfo(
+          this.gameUiRenderer.updatePlacementInfo(
             this.currentPlayerName,
             "attack"
           );

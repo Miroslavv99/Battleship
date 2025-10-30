@@ -38,12 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startButton.addEventListener("click", () => {
     menuContainer.classList.toggle("showing");
-    startButton.disabled = true;
+    // startButton.disabled = true;
   });
 
   playerButton.addEventListener("click", () => {
     playerForm.classList.toggle("showing");
     formHandler.playerFormInit();
+    gameUiRenderer.showAllBoards();
   });
 
   botButton.addEventListener("click", () => {

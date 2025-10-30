@@ -35,7 +35,7 @@ export class PlayerManager {
       } else {
         this.selectPlayer(attackInfo);
       }
-      this.gameUiRenderer.renderBattleInfo(
+      this.gameUiRenderer.updateBattleInfo(
         attackInfo,
         this.currentPlayer.name,
         `p1-${cell}`,
@@ -56,7 +56,7 @@ export class PlayerManager {
       } else {
         this.selectPlayer(attackInfo);
       }
-      this.gameUiRenderer.renderBattleInfo(
+      this.gameUiRenderer.updateBattleInfo(
         attackInfo,
         this.currentPlayer.name,
         `p2-${cell}`,
@@ -71,7 +71,7 @@ export class PlayerManager {
         this.currentPlayer = this.playerTwo;
         let botAttackCell = this.botController.getBotAttackCell();
         let botHit = this.playerOne.gameBoard.receiveAttack(botAttackCell);
-        this.gameUiRenderer.renderBattleInfo(
+        this.gameUiRenderer.updateBattleInfo(
           botHit,
           this.currentPlayer.name,
           `p1-${botAttackCell}`
@@ -80,7 +80,7 @@ export class PlayerManager {
           while (botHit === true) {
             let botAttackCell = this.botController.getBotAttackCell();
             botHit = this.playerOne.gameBoard.receiveAttack(botAttackCell);
-            this.gameUiRenderer.renderBattleInfo(
+            this.gameUiRenderer.updateBattleInfo(
               botHit,
               this.currentPlayer.name,
               `p1-${botAttackCell}`

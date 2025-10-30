@@ -13,13 +13,15 @@ export class UIHandler {
     this.orientationButton.addEventListener("click", () => {
       this.placementController.isHorizontal =
         !this.placementController.isHorizontal;
-      this.gameUiRenderer.updateOrientationButton(this.isHorizontal);
+      this.gameUiRenderer.updateOrientationButton(
+        this.placementController.isHorizontal
+      );
     });
   }
 
   handleShipClick() {
     this.gameUiRenderer.togglePlayerTwoBoard();
-    this.gameUiRenderer.renderPlacementInfo(
+    this.gameUiRenderer.updatePlacementInfo(
       this.placementController.playerOneName,
       "placement"
     );

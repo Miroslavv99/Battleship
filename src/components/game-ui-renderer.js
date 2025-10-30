@@ -34,7 +34,7 @@ export class GameUiRenderer {
     }
   }
 
-  renderPlacementInfo(playerName, mode) {
+  updatePlacementInfo(playerName, mode) {
     if (mode === "attack") {
       this.dashboard.textContent = `Player ${playerName} attack!`;
     } else {
@@ -42,7 +42,7 @@ export class GameUiRenderer {
     }
   }
 
-  renderBattleInfo(attackInfo, currentPlayer, cell, winner) {
+  updateBattleInfo(attackInfo, currentPlayer, cell, winner) {
     if (winner) {
       this.dashboard.textContent = `Player ${currentPlayer} Win!`;
       document.getElementById(cell).classList.add("hit");
