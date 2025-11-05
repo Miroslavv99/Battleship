@@ -13,6 +13,7 @@ const menuContainer = document.querySelector(".menu");
 const playerForm = document.querySelector(".player-form");
 const botButton = document.querySelector(".bot");
 const playerButton = document.querySelector(".player");
+const restartButton = document.querySelector(".restart");
 
 document.addEventListener("DOMContentLoaded", () => {
   const gameUiRenderer = new GameUiRenderer();
@@ -23,7 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
     botController,
     gameUiRenderer
   );
-  const gameController = new GameController(placementController, playerManager);
+  const gameController = new GameController(
+    placementController,
+    playerManager,
+    gameUiRenderer
+  );
   const uiHandler = new UIHandler(
     gameController,
     placementController,
@@ -52,6 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
     playerManager.playerTwo.name = "BOT";
     playerManager.isBotMode = true;
     menuContainer.classList.toggle("showing");
+    uiHandler.handleShipClick();
+    uiHandler.handleCellClick();
+  });
+
+  restartButton.addEventListener("click", () => {
+    gameUiRenderer.showAllBoards();
+    gameController.restartGame();
     uiHandler.handleShipClick();
     uiHandler.handleCellClick();
   });

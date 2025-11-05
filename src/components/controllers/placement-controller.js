@@ -3,8 +3,8 @@ export class PlacementController {
     this.botController = botController;
     this.playerManager = playerManager;
     this.gameUiRenderer = gameUiRenderer;
-    this.playerOneBoard = this.playerManager.playerOne.gameBoard;
-    this.playerTwoBoard = this.playerManager.playerTwo.gameBoard;
+    // this.playerOneBoard = this.playerManager.playerOne.gameBoard;
+    // this.playerTwoBoard = this.playerManager.playerTwo.gameBoard;
     this.selectedShip = null;
     this.isHorizontal = true;
   }
@@ -19,6 +19,14 @@ export class PlacementController {
 
   get currentPlayerName() {
     return this.playerManager.currentPlayer.name;
+  }
+
+  get playerOneBoard() {
+    return this.playerManager.playerOne.gameBoard;
+  }
+
+  get playerTwoBoard() {
+    return this.playerManager.playerTwo.gameBoard;
   }
 
   shipSelector(ship) {
@@ -103,6 +111,7 @@ export class PlacementController {
         if (this.playerTwoBoard.placedShips.has(this.selectedShip.id)) return;
 
         if (owner !== "p2") return;
+        console.log(this.selectedShip);
         this.playerTwoBoard.placeShip(
           this.isHorizontal,
           Number(this.selectedShip.length),

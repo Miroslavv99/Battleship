@@ -140,6 +140,10 @@ legend {
   color: rgb(255, 255, 255);
 }
 
+.restart {
+  cursor: pointer;
+}
+
 .start {
   width: 100px;
   height: 40px;
@@ -167,7 +171,7 @@ legend {
 .game-board {
   display: grid;
   grid-template-columns: 2fr 2fr;
-  grid-template-rows: 1fr 5fr;
+  grid-template-rows: 1fr 10fr;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   align-items: center;

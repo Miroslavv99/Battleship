@@ -105,6 +105,8 @@ export class GameUiRenderer {
   clearCells() {
     document.querySelectorAll(".cell").forEach((cell) => {
       cell.classList.remove("ship-cell");
+      cell.classList.remove("hit");
+      cell.classList.remove("miss");
     });
   }
 }
