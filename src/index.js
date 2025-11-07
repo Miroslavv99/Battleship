@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startButton.addEventListener("click", () => {
     menuContainer.classList.toggle("showing");
-    // startButton.disabled = true;
+    startButton.disabled = true;
   });
 
   playerButton.addEventListener("click", () => {
@@ -53,16 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   botButton.addEventListener("click", () => {
-    playerManager.playerOne.name = "MIRO";
-    playerManager.playerTwo.name = "BOT";
-    playerManager.isBotMode = true;
     menuContainer.classList.toggle("showing");
+    gameController.startBotGame();
     uiHandler.handleShipClick();
     uiHandler.handleCellClick();
   });
 
   restartButton.addEventListener("click", () => {
-    gameUiRenderer.showAllBoards();
     gameController.restartGame();
     uiHandler.handleShipClick();
     uiHandler.handleCellClick();

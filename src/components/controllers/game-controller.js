@@ -8,13 +8,21 @@ export class GameController {
     this.gameUiRenderer = gameUiRenderer;
   }
 
+  startBotGame() {
+    this.playerManager.playerOne.name = "";
+    this.playerManager.playerTwo.name = "AI";
+    this.playerManager.isBotMode = true;
+  }
+
   restartGame() {
     this.mode = "placement";
     this.playerManager.playerOneBoard = new GameBoard();
     this.playerManager.playerTwoBoard = new GameBoard();
+    this.gameUiRenderer.showAllBoards();
 
     this.playerManager.playerOne.gameBoard = this.playerManager.playerOneBoard;
     this.playerManager.playerTwo.gameBoard = this.playerManager.playerTwoBoard;
+    this.playerManager.currentPlayer = this.playerManager.playerOne;
 
     this.gameUiRenderer.clearCells();
   }
@@ -24,7 +32,9 @@ export class GameController {
       cell,
       owner
     );
-    if (placementDone) this.mode = "attack";
+    setTimeout(() => {
+      if (placementDone) this.mode = "attack";
+    }, 1000);
   }
 
   handleAttack(cell, owner) {

@@ -3,8 +3,6 @@ export class PlacementController {
     this.botController = botController;
     this.playerManager = playerManager;
     this.gameUiRenderer = gameUiRenderer;
-    // this.playerOneBoard = this.playerManager.playerOne.gameBoard;
-    // this.playerTwoBoard = this.playerManager.playerTwo.gameBoard;
     this.selectedShip = null;
     this.isHorizontal = true;
   }
@@ -56,6 +54,7 @@ export class PlacementController {
         }
       }
       this.playerTwoBoard.allShipsPlaced;
+      this.botController.botShips.push(shipLength);
     }
   }
 

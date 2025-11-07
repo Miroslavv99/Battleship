@@ -4,6 +4,7 @@ export class GameBoard {
   #board = Array.from({ length: 10 }, () => Array(10).fill(0));
   #ships = [];
   constructor() {
+    this.shots = [];
     this.placedShips = new Set();
     this.allShipsPlaced = false;
   }

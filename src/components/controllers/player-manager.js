@@ -27,9 +27,9 @@ export class PlayerManager {
       owner === "p1" &&
       !this.checkWinner()
     ) {
-      if (this.playerOne.shots.includes(cell)) return;
+      if (this.playerOne.gameBoard.shots.includes(cell)) return;
       let attackInfo = this.playerOne.gameBoard.receiveAttack(cell);
-      this.playerOne.shots.push(cell);
+      this.playerOne.gameBoard.shots.push(cell);
       if (this.isBotMode) {
         this.botMoveSelector(attackInfo);
       } else {
@@ -48,9 +48,9 @@ export class PlayerManager {
       owner === "p2" &&
       !this.checkWinner()
     ) {
-      if (this.playerTwo.shots.includes(cell)) return;
+      if (this.playerTwo.gameBoard.shots.includes(cell)) return;
       let attackInfo = this.playerTwo.gameBoard.receiveAttack(cell);
-      this.playerTwo.shots.push(cell);
+      this.playerTwo.gameBoard.shots.push(cell);
       if (this.isBotMode) {
         this.botMoveSelector(attackInfo);
       } else {
