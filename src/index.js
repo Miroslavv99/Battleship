@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   startButton.addEventListener("click", () => {
     menuContainer.classList.toggle("showing");
+    restartButton.classList.add("showing");
     startButton.disabled = true;
   });
 
