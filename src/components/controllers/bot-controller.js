@@ -15,12 +15,6 @@ export class BotController {
     return cells;
   }
 
-  getBotShips() {
-    for (let i = 0; i < this.botShips.length; i++) {
-      return this.botShips[i];
-    }
-  }
-
   getBotPlacementCell() {
     const cells = this.placementCells;
 

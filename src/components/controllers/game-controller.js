@@ -1,17 +1,25 @@
 import { GameBoard } from "../core/game-board.js";
 
 export class GameController {
-  constructor(placementController, playerManager, gameUiRenderer) {
+  constructor(placementController, playerManager, gameUiRenderer, formHandler) {
     this.mode = "placement";
     this.placementController = placementController;
     this.playerManager = playerManager;
     this.gameUiRenderer = gameUiRenderer;
+    this.formHandler = formHandler;
+  }
+
+  startPlayersGame() {
+    this.formHandler.playerFormInit();
+    this.gameUiRenderer.showAllBoards();
+    this.restartGame();
   }
 
   startBotGame() {
     this.playerManager.playerOne.name = "";
     this.playerManager.playerTwo.name = "AI";
     this.playerManager.isBotMode = true;
+    this.restartGame();
   }
 
   restartGame() {
@@ -34,7 +42,7 @@ export class GameController {
     );
     setTimeout(() => {
       if (placementDone) this.mode = "attack";
-    }, 1000);
+    }, 100);
   }
 
   handleAttack(cell, owner) {

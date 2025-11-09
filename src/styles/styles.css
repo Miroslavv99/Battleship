@@ -182,11 +182,8 @@ legend {
 }
 
 .grid-one {
-  /* position: absolute; */
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  /* top: 25%;
-  right: 50%; */
   z-index: 1;
 }
 

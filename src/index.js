@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameUiRenderer = new GameUiRenderer();
   const botController = new BotController();
   const playerManager = new PlayerManager(botController, gameUiRenderer);
+  const formHandler = new FormHandler(playerManager);
   const placementController = new PlacementController(
     playerManager,
     botController,
@@ -27,14 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameController = new GameController(
     placementController,
     playerManager,
-    gameUiRenderer
+    gameUiRenderer,
+    formHandler
   );
   const uiHandler = new UIHandler(
     gameController,
     placementController,
     gameUiRenderer
   );
-  const formHandler = new FormHandler(playerManager, uiHandler);
 
   gameUiRenderer.renderGrid();
   gameUiRenderer.renderOponentGrid();
@@ -44,13 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
   startButton.addEventListener("click", () => {
     menuContainer.classList.toggle("showing");
     restartButton.classList.add("showing");
-    startButton.disabled = true;
   });
 
   playerButton.addEventListener("click", () => {
     playerForm.classList.toggle("showing");
-    formHandler.playerFormInit();
-    gameUiRenderer.showAllBoards();
+    gameController.startPlayersGame();
+    uiHandler.handleShipClick();
+    uiHandler.handleCellClick();
   });
 
   botButton.addEventListener("click", () => {
