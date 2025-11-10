@@ -45,13 +45,17 @@ export class GameUiRenderer {
   updateBattleInfo(attackInfo, currentPlayer, cell, winner) {
     if (winner) {
       this.dashboard.textContent = `Player ${currentPlayer} Win!`;
-      document.getElementById(cell).classList.add("hit");
+      let coordinate = document.getElementById(cell);
+      coordinate.classList.add("hit");
     } else {
       if (!attackInfo) {
-        document.getElementById(cell).classList.add("miss");
+        let coordinate = document.getElementById(cell);
+        coordinate.classList.add("miss");
+
         this.dashboard.textContent = `Miss! Player ${currentPlayer} attack!`;
       } else {
-        document.getElementById(cell).classList.add("hit");
+        let coordinate = document.getElementById(cell);
+        coordinate.classList.add("hit");
         this.dashboard.textContent = `Hit! Player ${currentPlayer} attack again!`;
       }
     }
