@@ -5,7 +5,7 @@
 }
 
 .main {
-  background-image: url("/src/assets/images/1didsyn0nc9d1.webp");
+  background-image: url("/src/assets/images/background.webp");
   background-size: cover;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
