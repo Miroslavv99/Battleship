@@ -1,6 +1,7 @@
 export class FormHandler {
-  constructor(playerManager) {
+  constructor(playerManager, gameUiRenderer) {
     this.playerManager = playerManager;
+    this.gameUiRenderer = gameUiRenderer;
     this.menuContainer = document.querySelector(".menu");
     this.playerForm = document.querySelector(".player-form");
     this.playerOneInput = document.querySelector("#player-one");
@@ -40,6 +41,11 @@ export class FormHandler {
 
       this.menuContainer.classList.toggle("showing");
       this.playerForm.classList.toggle("showing");
+
+      this.gameUiRenderer.updatePlacementInfo(
+        this.playerManager.playerOne.name,
+        "placement"
+      );
 
       this.playerForm.reset();
     });

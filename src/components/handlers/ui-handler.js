@@ -21,10 +21,6 @@ export class UIHandler {
 
   handleShipClick() {
     this.gameUiRenderer.togglePlayerTwoBoard();
-    this.gameUiRenderer.updatePlacementInfo(
-      this.placementController.playerOneName,
-      "placement"
-    );
 
     this.shipBase.addEventListener("click", (event) => {
       if (this.gameController.mode !== "placement") return;

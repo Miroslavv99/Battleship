@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameUiRenderer = new GameUiRenderer();
   const botController = new BotController();
   const playerManager = new PlayerManager(botController, gameUiRenderer);
-  const formHandler = new FormHandler(playerManager);
+  const formHandler = new FormHandler(playerManager, gameUiRenderer);
   const placementController = new PlacementController(
     playerManager,
     botController,
@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameUiRenderer,
     formHandler
   );
+
   const uiHandler = new UIHandler(
     gameController,
     placementController,
