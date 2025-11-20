@@ -1,6 +1,6 @@
 import "./styles/styles.css";
 
-import { GameUiRenderer } from "./components/game-ui-renderer.js";
+import { GameUiRenderer } from "./components/controllers/game-ui-renderer.js";
 import { PlayerManager } from "./components/controllers/player-manager.js";
 import { UIHandler } from "./components/handlers/ui-handler.js";
 import { FormHandler } from "./components/handlers/form-handler.js";

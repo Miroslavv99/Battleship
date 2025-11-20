@@ -2,7 +2,7 @@ export class BotController {
   constructor() {
     this.attackCells = this.getCellsArray();
     this.placementCells = this.getCellsArray();
-    this.botShips = [4, 3];
+    this.botShips = [4, 3, 3, 2, 1];
   }
 
   getCellsArray() {

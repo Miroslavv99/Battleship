@@ -5,7 +5,7 @@
 }
 
 .main {
-  background-image: url("/src/assets/images/1didsyn0nc9d1.png");
+  background-image: url("/src/assets/images/1didsyn0nc9d1.webp");
   background-size: cover;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -162,7 +162,7 @@ legend {
 }
 
 .dashboard {
-  transform: translateY(300%);
+  transform: translateY(500%);
   grid-row: 1 / 2;
   grid-column: 1 / 4;
   color: rgb(255, 255, 255);
@@ -202,11 +202,11 @@ legend {
   box-shadow: 0 0 15px rgba(0, 0, 0, 1);
   background: rgba(0, 0, 0, 0.344);
   backdrop-filter: blur(10px);
-
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
 }
+
 .showing {
   opacity: 1;
   visibility: visible;
@@ -233,60 +233,71 @@ legend {
   align-items: center;
   height: 50%;
   width: 200px;
-  background-color: rgba(55, 55, 55, 0.442);
+  background: rgba(0, 0, 0, 0.344);
+  backdrop-filter: blur(10px);
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-.ship:hover {
-  background-color: rgb(0, 204, 255);
-  transform: scale(103%);
+.ship {
+  transition: transform 0.2s ease;
   cursor: pointer;
 }
 
+.ship:hover {
+  transform: scale(110%);
+}
+
 .ship:focus {
-  background-color: rgb(0, 204, 255);
-  transform: scale(103%);
+  transform: scale(110%);
 }
 
 #battleship {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: 2px solid rgb(0, 0, 0);
+  background-image: url("/src/assets/images/battleship.png");
+  background-position: center;
+  background-size: cover;
   height: 50px;
   width: 180px;
 }
 
 #cruiser-one {
-  border: 2px solid rgb(0, 0, 0);
+  background-image: url("/src/assets/images/cruiser.png");
+  background-position: center;
+  background-size: cover;
   height: 50px;
   width: 140px;
 }
 
 #cruiser-two {
-  border: 2px solid rgb(0, 0, 0);
+  background-image: url("/src/assets/images/cruiser.png");
+  background-position: center;
+  background-size: cover;
   height: 50px;
   width: 140px;
 }
 
 #destroyer {
-  border: 2px solid rgb(0, 0, 0);
+  background-image: url("/src/assets/images/destroyer.png");
+  background-position: center;
+  background-size: cover;
   height: 50px;
   width: 110px;
 }
 
 #boat {
-  border: 2px solid rgb(0, 0, 0);
+  background-image: url("/src/assets/images/boat.png");
+  background-position: center;
+  background-size: cover;
   height: 50px;
   width: 80px;
 }
 
 .miss {
-  background-image: url("/src/assets/images/dot.png");
+  background-image: url("/src/assets/images/dot.webp");
   background-size: cover;
 }
 
 .hit {
-  background-image: url("/src/assets/images/pngegg.png");
+  background-image: url("/src/assets/images/pngegg.webp");
   background-size: contain;
 }
 
